@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<title></title>
+<meta name="title" content="">
+<meta name="description" content="">
+<meta name="keywords" content="">
+
+<!-- OGP -->
+<meta property="og:type" content="website">
+<meta property="og:url" content="">
+<meta property="og:title" content="">
+<meta property="og:description" content="">
+<meta property="og:site_name" content="">
+<meta property="og:image" content="">
+
+<!-- Twitter Card -->
+<meta name="twitter:card" content="">
+<meta name="twitter:site" content="">
+<meta name="twitter:creator" content="">
+<meta name="twitter:url" content="">
+<meta name="twitter:domain" content="">
+<meta name="twitter:title" content="">
+<meta name="twitter:description" content="">
+<meta name="twitter:image:src" content="">
+
+<link rel="stylesheet" href="/css/main.css">
+
+</head>
+
+<body>
+
+<div class="wrapper">
+
+    <section class="contentTop">
+        <h1 class="title"><img src="/img/title.png" alt="Facebook URL Checker" /></h1>
+    <!-- /.contentTop --></section>
+
+    <section class="contentForm">
+        <form id="checkForm" class="checkForm">
+            <input id="urlField" class="urlField" type="text" placeholder="http://example.com" />
+            <input class="checkBtn" type="image" src="/img/check_btn.png" />
+        </form>
+    <!-- /.contentForm --></section>
+
+    <section class="contentResult">
+        <table class="resultTable">
+            <thead>
+                <tr>
+                    <th>TOTAL COUNT</th>
+                    <th>SHARE COUNT</th>
+                    <th>LIKE COUNT</th>
+                    <th>COMMENT COUNT</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td id="totalCount">0</td>
+                    <td id="shareCount">0</td>
+                    <td id="likeCount">0</td>
+                    <td id="commentCount">0</td>
+                </tr>
+            </tbody>
+        <!-- /.resultTable --></table>
+    <!-- /.contentResult --></section>
+
+<!-- /.wrapper --></div>
+
+<div id="fb-root"></div>
+<script>
+  window.fbAsyncInit = function() {
+    FB.init({
+      appId      : '1396762403910193',
+      status     : true,
+      xfbml      : true
+    });
+  };
+
+(function(d, s, id){
+    var js, fjs = d.getElementsByTagName(s)[0];
+    if (d.getElementById(id)) {return;}
+    js = d.createElement(s); js.id = id;
+    js.src = "//connect.facebook.net/en_US/all.js";
+    fjs.parentNode.insertBefore(js, fjs);
+}(document, 'script', 'facebook-jssdk'));
+</script>
+
+<script>
+
+var totalCount   = document.getElementById('totalCount'),
+    shareCount   = document.getElementById('shareCount'),
+    likeCount    = document.getElementById('likeCount'),
+    commentCount = document.getElementById('commentCount'),
+    form          = document.getElementById('checkForm'),
+    urlField      = document.getElementById('urlField');
+
+//login.onclick = function() {
+//FB.login(function(response) {
+//   if (response.authResponse) {
+//     console.log('Welcome!  Fetching your information.... ');
+//   } else {
+//     console.log('User cancelled login or did not fully authorize.');
+//   }
+// });
+//};
+
+form.onsubmit = function(e) {
+    e.preventDefault();
+    FB.api(
+        '/fql', 
+        'get',
+        {q: 'SELECT total_count, share_count, comment_count, like_count FROM link_stat WHERE url = "' + urlField.value + '"'},
+        fql_success
+    );
+    //FB.api(
+    //    '/search',
+    //    'get',
+    //    {q: url.value, type: 'post'},
+    //    search_success
+    //);
+};
+
+function fql_success(response) {
+    var data = response['data'][0];
+    totalCount.innerHTML   = data['total_count'];
+    shareCount.innerHTML   = data['share_count'];
+    likeCount.innerHTML    = data['like_count'];
+    commentCount.innerHTML = data['comment_count'];
+}
+
+function search_success(response) {
+    console.log(response);
+}
+</script>
+
+</body>
+
+</html>
