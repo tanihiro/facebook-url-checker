@@ -2,30 +2,18 @@
 <html lang="ja">
 <head>
 <meta charset="UTF-8">
-<title></title>
-<meta name="title" content="">
-<meta name="description" content="">
-<meta name="keywords" content="">
+<title>Facebook URL Checker ~ あなたのサイトの評判をチェックしよう</title>
+<meta name="title" content="Facebook URL Checker ~ あなたのサイトの評判をチェックしよう">
+<meta name="description" content="このサイトは、URLのいいねボタンに表示される数字の内訳を確認したり、ユーザーの投稿を検索して、あなたのサイトの評判をチェックすることができます。">
+<meta name="keywords" content="facebook,Facebook,URL,評判,check">
 
 <!-- OGP -->
 <meta property="og:type" content="website">
-<meta property="og:url" content="">
-<meta property="og:title" content="">
-<meta property="og:description" content="">
-<meta property="og:site_name" content="">
+<meta property="og:url" content="http://facebook-url-checker.github.io">
 <meta property="og:image" content="">
 
-<!-- Twitter Card -->
-<meta name="twitter:card" content="">
-<meta name="twitter:site" content="">
-<meta name="twitter:creator" content="">
-<meta name="twitter:url" content="">
-<meta name="twitter:domain" content="">
-<meta name="twitter:title" content="">
-<meta name="twitter:description" content="">
-<meta name="twitter:image:src" content="">
-
 <link rel="stylesheet" href="/css/main.css">
+<link rel="shortcut icon" type="image/x-icon" href="/favicon.ico" />
 
 </head>
 
@@ -35,6 +23,14 @@
 
     <section class="contentTop">
         <h1 class="title"><img src="/img/title.png" alt="Facebook URL Checker" /></h1>
+        <p class="copy">あなたのサイトの評判をチェックしよう。</p>
+        <p class="notes">このサイトは、いいねボタンに表示される数字の内訳を確認したり、<br />ユーザーの投稿を検索して、あなたのサイトの評判をチェックすることができます。</p>
+        <ul class="snsList">
+            <li class="facebook"><div class="fb-like" data-href="https://developers.facebook.com/docs/plugins/" data-layout="button_count" data-action="like" data-show-faces="false" data-share="false"></div></li>
+            <li class="twitter"><a href="https://twitter.com/share" class="twitter-share-button" data-lang="ja">ツイート</a>
+            <script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+'://platform.twitter.com/widgets.js';fjs.parentNode.insertBefore(js,fjs);}}(document, 'script', 'twitter-wjs');</script></li>
+            <li class="hatena"><a href="http://b.hatena.ne.jp/entry/" class="hatena-bookmark-button" data-hatena-bookmark-layout="standard-balloon" data-hatena-bookmark-lang="ja" title="このエントリーをはてなブックマークに追加"><img src="http://b.st-hatena.com/images/entry-button/button-only@2x.png" alt="このエントリーをはてなブックマークに追加" width="20" height="20" style="border: none;" /></a><script type="text/javascript" src="http://b.st-hatena.com/js/bookmark_button.js" charset="utf-8" async="async"></script></li>
+        <!-- /.snsList --></ul>
     <!-- /.contentTop --></section>
 
     <section class="contentForm">
@@ -63,9 +59,36 @@
                 </tr>
             </tbody>
         <!-- /.resultTable --></table>
+
+        <div class="groupSearchPost">
+            <h2 class="title">ユーザーの投稿</h2>
+            <div id="groupPost" class="groupPost">
+                <p class="notes">投稿の検索には認証が必要です。</p>
+                <div id="searchPostBtn" class="searchPostBtn">search post</div>
+            <!-- /.groupPost --></div>
+        <!-- /.groupSearchPost --></div>
     <!-- /.contentResult --></section>
 
 <!-- /.wrapper --></div>
+
+<footer class="footer">
+    <p class="copyright">&copy; itani-hiroki</p>
+</footer>
+
+
+<script type="text/template" id="postResultTmpl">
+    <div class="postResult">
+        <a href="{{ link }}" target="_blank">
+            <div class="leftBox">
+                <img class="icon" src="{{ icon_url }}" />
+            </div>
+            <div class="rightBox">
+                <p class="name">{{ name }}</p>
+                <p class="message">{{ message }}</p>
+            </div>
+        </a>
+    <!-- /.postResult --></div>
+</script>
 
 <div id="fb-root"></div>
 <script>
@@ -92,18 +115,23 @@ var totalCount   = document.getElementById('totalCount'),
     shareCount   = document.getElementById('shareCount'),
     likeCount    = document.getElementById('likeCount'),
     commentCount = document.getElementById('commentCount'),
-    form          = document.getElementById('checkForm'),
-    urlField      = document.getElementById('urlField');
+    form         = document.getElementById('checkForm'),
+    urlField     = document.getElementById('urlField'),
+    postResultTmpl = document.getElementById('postResultTmpl').innerHTML,
+    searchPostBtn  = document.getElementById('searchPostBtn'),
+    groupPost      = document.getElementById('groupPost');
 
-//login.onclick = function() {
-//FB.login(function(response) {
-//   if (response.authResponse) {
-//     console.log('Welcome!  Fetching your information.... ');
-//   } else {
-//     console.log('User cancelled login or did not fully authorize.');
-//   }
-// });
-//};
+searchPostBtn.onclick = function() {
+    if (!FB.getUserID()) {
+        FB.login(function(response) {
+            if (response.authResponse) {
+                search_api();
+            }
+        });
+    } else {
+        search_api();
+    }
+};
 
 form.onsubmit = function(e) {
     e.preventDefault();
@@ -113,24 +141,71 @@ form.onsubmit = function(e) {
         {q: 'SELECT total_count, share_count, comment_count, like_count FROM link_stat WHERE url = "' + urlField.value + '"'},
         fql_success
     );
-    //FB.api(
-    //    '/search',
-    //    'get',
-    //    {q: url.value, type: 'post'},
-    //    search_success
-    //);
+    if (FB.getUserID()) {
+        search_api();
+    } else {
+        groupPost.style.display = 'block';
+    }
 };
 
 function fql_success(response) {
     var data = response['data'][0];
-    totalCount.innerHTML   = data['total_count'];
-    shareCount.innerHTML   = data['share_count'];
-    likeCount.innerHTML    = data['like_count'];
-    commentCount.innerHTML = data['comment_count'];
+    if (data) {
+        totalCount.innerHTML   = data['total_count'];
+        shareCount.innerHTML   = data['share_count'];
+        likeCount.innerHTML    = data['like_count'];
+        commentCount.innerHTML = data['comment_count'];
+    } else {
+        totalCount.innerHTML   = 0;
+        shareCount.innerHTML   = 0;
+        likeCount.innerHTML    = 0;
+        commentCount.innerHTML = 0;
+    }
+}
+
+function search_api() {
+   FB.api(
+       '/search',
+       'get',
+       {q: urlField.value, type: 'post'},
+       search_success
+   );
 }
 
 function search_success(response) {
-    console.log(response);
+    var data = response['data'] || [],
+        len  = data.length,
+        results = [];
+
+    for (var i = 0; i < len; ++i) {
+        var postData = data[i];
+        if (postData['message'] == undefined) continue;
+        postResult = postResultTmpl
+            .replace(/{{ link }}/, 'http://facebook.com/' + postData['id'])
+            .replace(/{{ name }}/, escapeHtml(postData['from']['name']))
+            .replace(/{{ icon_url }}/, 'http://graph.facebook.com/' + postData['from']['id'] + '/picture')
+            .replace(/{{ message }}/, nl2br(escapeHtml(postData['message'])));
+        results.push(postResult);
+    }
+
+    groupPost.innerHTML = results.join("\n");
+    groupPost.style.display = 'block';
+}
+
+function escapeHtml(str) {
+    if (typeof str != 'string') return;
+
+    return str.replace(/&/g, '&amp;')
+              .replace(/'/g, '&#39;')
+              .replace(/"/g, '&quot;')
+              .replace(/</g, '&lt;')
+              .replace(/>/g, '&gt;');
+}
+
+function nl2br(str) {
+    if (typeof str != 'string') return;
+
+    return str.replace(/(\r\n|\r|\n)/g, '<br />');
 }
 </script>
 
