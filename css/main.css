@@ -125,14 +125,15 @@ body, html {
 .contentForm {
   position: absolute;
   top: 338px;
-  left: 281px;
+  left: 50%;
+  margin-left: -362px;
 }
-/* line 59, ../_build/scss/main.scss */
+/* line 60, ../_build/scss/main.scss */
 .contentForm .checkForm {
   overflow: hidden;
   *zoom: 1;
 }
-/* line 62, ../_build/scss/main.scss */
+/* line 63, ../_build/scss/main.scss */
 .contentForm .checkForm .urlField {
   float: left;
   width: 490px;
@@ -145,38 +146,38 @@ body, html {
   -moz-box-shadow: 0 0 6px 2px #666666;
   box-shadow: 0 0 6px 2px #666666;
 }
-/* line 72, ../_build/scss/main.scss */
+/* line 73, ../_build/scss/main.scss */
 .contentForm .checkForm .checkBtn {
   margin-left: 20px;
 }
 
-/* line 78, ../_build/scss/main.scss */
+/* line 79, ../_build/scss/main.scss */
 .contentResult {
   padding-top: 80px;
 }
-/* line 81, ../_build/scss/main.scss */
+/* line 82, ../_build/scss/main.scss */
 .contentResult .resultTable {
   width: 800px;
   margin: 0 auto;
   font-size: 120%;
 }
-/* line 85, ../_build/scss/main.scss */
+/* line 86, ../_build/scss/main.scss */
 .contentResult .resultTable th {
   font-weight: bold;
 }
-/* line 88, ../_build/scss/main.scss */
+/* line 89, ../_build/scss/main.scss */
 .contentResult .resultTable th, .contentResult .resultTable td {
   width: 248px;
   text-align: center;
   border: 1px solid #ccc;
   padding: 10px 0;
 }
-/* line 96, ../_build/scss/main.scss */
+/* line 97, ../_build/scss/main.scss */
 .contentResult .groupSearchPost {
   width: 800px;
   margin: 30px auto 0;
 }
-/* line 100, ../_build/scss/main.scss */
+/* line 101, ../_build/scss/main.scss */
 .contentResult .groupSearchPost .title {
   font-size: 140%;
   font-weight: bold;
@@ -184,19 +185,19 @@ body, html {
   padding-bottom: 5px;
   border-bottom: solid 1px #ccc;
 }
-/* line 108, ../_build/scss/main.scss */
+/* line 109, ../_build/scss/main.scss */
 .contentResult .groupSearchPost .groupPost {
   display: none;
   margin-bottom: 55px;
 }
-/* line 112, ../_build/scss/main.scss */
+/* line 113, ../_build/scss/main.scss */
 .contentResult .groupSearchPost .groupPost .notes {
   margin-top: 30px;
   color: #666;
   font-size: 90%;
   text-align: center;
 }
-/* line 119, ../_build/scss/main.scss */
+/* line 120, ../_build/scss/main.scss */
 .contentResult .groupSearchPost .groupPost .searchPostBtn {
   width: 274px;
   height: 85px;
@@ -206,12 +207,12 @@ body, html {
   cursor: pointer;
 }
 
-/* line 130, ../_build/scss/main.scss */
+/* line 131, ../_build/scss/main.scss */
 .footer {
   height: 25px;
   background-color: #415D9E;
 }
-/* line 134, ../_build/scss/main.scss */
+/* line 135, ../_build/scss/main.scss */
 .footer .copyright {
   padding-top: 7px;
   text-align: center;
@@ -219,31 +220,31 @@ body, html {
   font-size: 80%;
 }
 
-/* line 142, ../_build/scss/main.scss */
+/* line 143, ../_build/scss/main.scss */
 .postResult {
   padding: 15px 0;
   border-bottom: solid 1px #ccc;
   overflow: hidden;
   *zoom: 1;
 }
-/* line 146, ../_build/scss/main.scss */
+/* line 147, ../_build/scss/main.scss */
 .postResult a {
   text-decoration: none;
 }
-/* line 149, ../_build/scss/main.scss */
+/* line 150, ../_build/scss/main.scss */
 .postResult .leftBox {
   float: left;
 }
-/* line 152, ../_build/scss/main.scss */
+/* line 153, ../_build/scss/main.scss */
 .postResult .rightBox {
   margin-left: 70px;
   color: #333;
 }
-/* line 155, ../_build/scss/main.scss */
+/* line 156, ../_build/scss/main.scss */
 .postResult .rightBox .name {
   font-weight: bold;
 }
-/* line 158, ../_build/scss/main.scss */
+/* line 159, ../_build/scss/main.scss */
 .postResult .rightBox .message {
   margin-top: 10px;
   font-size: 90%;
