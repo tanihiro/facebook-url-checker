@@ -121,6 +121,12 @@ var totalCount   = document.getElementById('totalCount'),
     searchPostBtn  = document.getElementById('searchPostBtn'),
     groupPost      = document.getElementById('groupPost');
 
+init();
+
+function init() {
+    urlField.focus();
+}
+
 searchPostBtn.onclick = function() {
     if (!FB.getUserID()) {
         FB.login(function(response) {
