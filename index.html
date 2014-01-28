@@ -130,11 +130,11 @@ function init() {
         var p = params[i].split('=');
         if (p[0] === 'u') {
             urlField.value = p[1];
+            exec_fql();
         }
     }
 
     urlField.focus();
-    exec_fql();
 }
 
 searchPostBtn.onclick = function() {
