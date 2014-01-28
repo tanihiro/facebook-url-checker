@@ -134,7 +134,7 @@ function init() {
     }
 
     urlField.focus();
-    //form.submit();
+    exec_fql();
 }
 
 searchPostBtn.onclick = function() {
@@ -151,6 +151,10 @@ searchPostBtn.onclick = function() {
 
 form.onsubmit = function(e) {
     e.preventDefault();
+    exec_fql();
+};
+
+function exec_fql() {
     FB.api(
         '/fql', 
         'get',
@@ -162,7 +166,7 @@ form.onsubmit = function(e) {
     } else {
         groupPost.style.display = 'block';
     }
-};
+}
 
 function fql_success(response) {
     var data = response['data'][0];
