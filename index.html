@@ -98,6 +98,7 @@
       status     : true,
       xfbml      : true
     });
+    init();
   };
 
 (function(d, s, id){
@@ -121,10 +122,19 @@ var totalCount   = document.getElementById('totalCount'),
     searchPostBtn  = document.getElementById('searchPostBtn'),
     groupPost      = document.getElementById('groupPost');
 
-init();
 
 function init() {
+    var params = location.search.substr(1).split('&');
+
+    for (var i = 0; i < params.length; ++i) {
+        var p = params[i].split('=');
+        if (p[0] === 'u') {
+            urlField.value = p[1];
+        }
+    }
+
     urlField.focus();
+    search_api();
 }
 
 searchPostBtn.onclick = function() {
