@@ -138,15 +138,17 @@ function init() {
 }
 
 searchPostBtn.onclick = function() {
-    if (!FB.getUserID()) {
-        FB.login(function(response) {
-            if (response.authResponse) {
-                search_api();
-            }
-        });
-    } else {
-        search_api();
-    }
+    FB.getLoginStatus(function(response) {
+        if (response.status === 'connected') {
+            search_api();
+        } else {
+            FB.login(function(response) {
+                if (response.authResponse) {
+                    search_api();
+                }
+            });
+        }
+    });
 };
 
 form.onsubmit = function(e) {
@@ -161,11 +163,13 @@ function exec_fql() {
         {q: 'SELECT total_count, share_count, comment_count, like_count FROM link_stat WHERE url = "' + urlField.value + '"'},
         fql_success
     );
-    if (FB.getUserID()) {
-        search_api();
-    } else {
-        groupPost.style.display = 'block';
-    }
+    FB.getLoginStatus(function(response) {
+        if (response.status === 'connected') {
+            search_api();
+        } else {
+            groupPost.style.display = 'block';
+        }
+    });
 }
 
 function fql_success(response) {
